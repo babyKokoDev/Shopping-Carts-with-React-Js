@@ -112,8 +112,29 @@ const ShoppingCarts = () => {
         
       }
       const decrease = (index) => {
-        
+        let items = products.map((item, ind)=> {
+            if (ind === index){
+                return {
+                    ...item,
+                    quantity: item.quantity - 1 > 0 ? item.quantity - 1 : 1
+                }
+            }
+            return item
+        })
+
+        setState((state)=> ({
+            products : [...items]
+        }))
      }
+
+     const grandTotal = () => {
+         let totalprice = 0
+         for (let i=0; i<products.length; i++){
+             totalprice += products[i].price * products[i].quantity
+         }
+         return totalprice
+     }
+     
 
   return (
     <>
@@ -151,6 +172,10 @@ const ShoppingCarts = () => {
            )
            )
           }
+          <tr className='text-success fw-bold'>
+              <td colSpan={5}></td>
+              <td>Grand Total : ${grandTotal().toLocaleString("en-US")} </td>
+          </tr>
        </tbody>
      </table>
     </>
